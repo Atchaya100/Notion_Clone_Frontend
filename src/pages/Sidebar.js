@@ -1,4 +1,4 @@
-import {React,useEffect,useContext,useState, act} from "react";
+import {React,useEffect,useContext,useState} from "react";
 import "./Sidebar.css"; // Create a CSS file for styling
 import { createPage,fetchPages,updateName} from "../api/pageApi";
 import { AuthContext } from "../utils/AuthContext";
@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 export default function Sidebar() {
    const {user,setActivePage,activePage} = useContext(AuthContext);
    const [pages,setPages] = useState([])
-   console.log("Active Page:", activePage);
 
     const getPages = async () => {
     try {

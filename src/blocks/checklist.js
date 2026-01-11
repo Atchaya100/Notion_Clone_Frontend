@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export const Checklist = ({block,updateBlock,deleteBlock}) => {
   const [items, setItems] = useState([{ id: Date.now(), text: "" ,status:false}]);
-  if(typeof block.content == 'string' && block.type=='checklist' ){
+  if(typeof block.content === 'string' && block.type==='checklist' ){
     block.content = JSON.parse(block.content);
     setItems(block.content);
   }

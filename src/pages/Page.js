@@ -5,7 +5,6 @@ import { Header } from "../blocks/header";
 import { Text } from "../blocks/text";
 import { Checklist } from "../blocks/checklist";
 import { Line } from "../blocks/line";
-import { useId } from "react";
 import { saveOrUpdateBlock,fetchBlocks,deleteBlockById } from "../api/blockApi";
 
 const Page = () => {
@@ -73,7 +72,7 @@ const savePage = async () =>{
 
 
   for(let block of dirtyBlocks){
-    if(block.type=='checklist'){
+    if(block.type==='checklist'){
       block.content = JSON.stringify(block.content);
     }
     let res = await saveOrUpdateBlock({ ...block, pageId: pageId });

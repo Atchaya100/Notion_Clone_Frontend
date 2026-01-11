@@ -5,7 +5,7 @@ export const Header = ({ block, updateBlock,deleteBlock })=>{
          if(block.content){
         setValue(block.content)
     }
-    },[])
+    },[block.content])
  
 
 

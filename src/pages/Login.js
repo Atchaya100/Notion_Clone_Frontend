@@ -68,7 +68,7 @@ const redirectToRegister = () => {
             Login
           </button>
 
-          <a className="text-white" onClick={redirectToRegister}>Does not have an account? Create Here</a>
+          <a className="text-white" href="test" onClick={redirectToRegister}>Does not have an account? Create Here</a>
         </div>
       </div>
     </div>
