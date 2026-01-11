@@ -13,10 +13,10 @@ export function AuthProvider({ children }) {
 
     if (userDetails) {
       setUser({ ...JSON.parse(userDetails) });
-    }
+    } 
 
     setLoading(false); // done checking
-  }, []);
+  }, [activePage]);
 
   return (
     <AuthContext.Provider value={{ user, setUser,activePage,setActivePage, loading }}>

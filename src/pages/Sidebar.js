@@ -17,12 +17,9 @@ export default function Sidebar() {
       console.error("Error fetching pages:", err);
     }
   };
-
    useEffect(() => {
- 
-
   getPages();
-}, []);
+}, [pages.length]);
 
    const createNew = async () => {
        await createPage({page_name:'Untitled',createdBy:user.id})
