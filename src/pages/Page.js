@@ -1,4 +1,4 @@
-import {useState, useEffect,useRef} from "react";
+import {useState, useEffect,useRef,useCallback} from "react";
 import { useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import { Header } from "../blocks/header";
@@ -32,16 +32,7 @@ useEffect(() => {
   });
 }, [pageId]);
 
-useEffect(() => {
-  if (blocks.length === 0) return;
 
-  
-  const timeout = setTimeout(() => {
-    savePage(blocks);
-  }, 800);
-
-  return () => clearTimeout(timeout);
-}, [blocks]);
  
 const createLine = () => {
     const id=Date.now() + Math.random();
@@ -65,27 +56,40 @@ const createTextBlock = () => {
 };
 
 
-const savePage = async () =>{
-  const dirtyBlocks = blocksRef.current.filter(block => dirtyRef.current[block.id]);
+const savePage = useCallback(async () => {
+  const dirtyBlocks = blocksRef.current.filter(
+    (block) => dirtyRef.current[block.id]
+  );
 
-  if(dirtyBlocks.length === 0) return;
+  if (dirtyBlocks.length === 0) return;
 
-
-  for(let block of dirtyBlocks){
-    if(block.type==='checklist'){
+  for (let block of dirtyBlocks) {
+    if (block.type === "checklist") {
       block.content = JSON.stringify(block.content);
     }
-    let res = await saveOrUpdateBlock({ ...block, pageId: pageId });
-    if(res.status === 200){
-            console.log(res.data)
-        }
-        else{
-            console.log(res.data.error)
-            
-        }
-    delete dirtyRef.current[block.id];  
+
+    let res = await saveOrUpdateBlock({ ...block, pageId });
+
+    if (res.status !== 200) {
+      console.log(res.data.error);
+    }
+
+    delete dirtyRef.current[block.id];
   }
-}
+}, [pageId]);
+
+
+useEffect(() => {
+  if (blocks.length === 0) return;
+
+  
+  const timeout = setTimeout(() => {
+    savePage(blocks);
+  }, 800);
+
+  return () => clearTimeout(timeout);
+}, [blocks, savePage]);
+
 
 
 
