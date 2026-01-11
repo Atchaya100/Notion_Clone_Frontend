@@ -1,4 +1,4 @@
-import {React,useEffect,useContext,useState} from "react";
+import {React,useEffect,useContext,useState,useCallback} from "react";
 import "./Sidebar.css"; // Create a CSS file for styling
 import { createPage,fetchPages,updateName} from "../api/pageApi";
 import { AuthContext } from "../utils/AuthContext";
@@ -9,17 +9,17 @@ export default function Sidebar() {
    const {user,setActivePage,activePage} = useContext(AuthContext);
    const [pages,setPages] = useState([])
 
-    const getPages = async () => {
-    try {
-      const pages = await fetchPages(user.id);
-      setPages(pages.data.pages);
-    } catch (err) {
-      console.error("Error fetching pages:", err);
-    }
-  };
+   const getPages = useCallback(async () => {
+  try {
+    const pages = await fetchPages(user.id);
+    setPages(pages.data.pages);
+  } catch (err) {
+    console.error("Error fetching pages:", err);
+  }
+}, [user.id]);
    useEffect(() => {
   getPages();
-}, [pages.length]);
+}, [getPages]);
 
    const createNew = async () => {
        await createPage({page_name:'Untitled',createdBy:user.id})
